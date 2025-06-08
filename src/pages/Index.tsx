@@ -6,7 +6,7 @@ import { QuickActions } from "@/components/QuickActions";
 import { 
   Users, 
   Calendar, 
-  DollarSign, 
+  BadgeIndianRupee, 
   TrendingUp,
   Bell,
   Search,
@@ -77,9 +77,9 @@ const Index = () => {
             />
             <DashboardCard
               title="Revenue This Month"
-              value="$245,670"
+              value="₹20,50,580"
               change="+23% from last month"
-              icon={DollarSign}
+              icon={BadgeIndianRupee}
               trend="up"
             />
             <DashboardCard

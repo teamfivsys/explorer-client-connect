@@ -2,54 +2,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, User, TrendingUp } from "lucide-react";
-
-const recentBookings = [
-  {
-    id: "BK-001",
-    customer: "John Smith",
-    destination: "Bali, Indonesia",
-    date: "2024-07-15",
-    status: "confirmed",
-    amount: "$2,450",
-    avatar: "JS"
-  },
-  {
-    id: "BK-002",
-    customer: "Sarah Johnson",
-    destination: "Tokyo, Japan", 
-    date: "2024-08-02",
-    status: "pending",
-    amount: "$3,200",
-    avatar: "SJ"
-  },
-  {
-    id: "BK-003",
-    customer: "Mike Davis",
-    destination: "Paris, France",
-    date: "2024-07-28",
-    status: "confirmed",
-    amount: "$1,890",
-    avatar: "MD"
-  },
-  {
-    id: "BK-004",
-    customer: "Emma Wilson",
-    destination: "Dubai, UAE",
-    date: "2024-08-20",
-    status: "quote",
-    amount: "$2,750",
-    avatar: "EW"
-  }
-];
+import { mockBookings } from "@/data/mockData";
+import { formatINR } from "@/utils/currency";
 
 export function RecentBookings() {
   const getStatusStyle = (status: string) => {
     switch (status) {
       case "confirmed":
         return "bg-gradient-to-r from-emerald-100 to-emerald-50 text-emerald-700 border-emerald-200";
-      case "pending":
+      case "quoted":
         return "bg-gradient-to-r from-amber-100 to-amber-50 text-amber-700 border-amber-200";
-      case "quote":
+      case "lead":
         return "bg-gradient-to-r from-blue-100 to-blue-50 text-blue-700 border-blue-200";
       default:
         return "bg-gradient-to-r from-gray-100 to-gray-50 text-gray-700 border-gray-200";
@@ -71,7 +34,7 @@ export function RecentBookings() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {recentBookings.map((booking, index) => (
+          {mockBookings.slice(0, 4).map((booking, index) => (
             <div 
               key={booking.id} 
               className="group relative p-4 rounded-xl bg-gradient-to-r from-white/80 to-white/40 backdrop-blur-sm border border-gray-200/50 hover:shadow-lg hover:scale-[1.01] transition-all duration-300"
@@ -94,7 +57,7 @@ export function RecentBookings() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
                       <User className="h-4 w-4 text-gray-500" />
-                      <span className="font-semibold text-gray-900 truncate">{booking.customer}</span>
+                      <span className="font-semibold text-gray-900 truncate">{booking.customerName}</span>
                       <span className="text-xs text-gray-400">#{booking.id}</span>
                     </div>
                     <div className="flex items-center gap-4 text-sm text-gray-600">
@@ -104,7 +67,7 @@ export function RecentBookings() {
                       </div>
                       <div className="flex items-center gap-1">
                         <Calendar className="h-3 w-3 text-purple-500" />
-                        <span>{booking.date}</span>
+                        <span>{booking.startDate}</span>
                       </div>
                     </div>
                   </div>
@@ -116,7 +79,7 @@ export function RecentBookings() {
                     {booking.status}
                   </Badge>
                   <div className="text-right">
-                    <div className="font-bold text-lg text-gray-900">{booking.amount}</div>
+                    <div className="font-bold text-lg text-gray-900">{formatINR(booking.amount)}</div>
                     <div className="flex items-center gap-1 text-xs text-emerald-600">
                       <TrendingUp className="h-3 w-3" />
                       <span>+12%</span>

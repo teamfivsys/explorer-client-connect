@@ -5,7 +5,6 @@ import {
   Users, 
   Calendar, 
   MapPin, 
-  CreditCard, 
   BarChart3, 
   Settings,
   Menu,
@@ -14,22 +13,22 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { NavLink } from "react-router-dom";
 
 interface SidebarItem {
   icon: React.ElementType;
   label: string;
-  active?: boolean;
+  href: string;
   count?: number;
 }
 
 const sidebarItems: SidebarItem[] = [
-  { icon: Home, label: "Dashboard", active: true },
-  { icon: Users, label: "Customers", count: 2847 },
-  { icon: Calendar, label: "Bookings", count: 156 },
-  { icon: MapPin, label: "Destinations", count: 45 },
-  { icon: CreditCard, label: "Payments" },
-  { icon: BarChart3, label: "Analytics" },
-  { icon: Settings, label: "Settings" },
+  { icon: Home, label: "Dashboard", href: "/" },
+  { icon: Users, label: "Customers", href: "/customers", count: 2847 },
+  { icon: Calendar, label: "Bookings", href: "/bookings", count: 156 },
+  { icon: MapPin, label: "Packages", href: "/packages", count: 45 },
+  { icon: BarChart3, label: "Analytics", href: "/analytics" },
+  { icon: Settings, label: "Settings", href: "/settings" },
 ];
 
 export function CrmSidebar() {
@@ -71,41 +70,48 @@ export function CrmSidebar() {
               className="group relative"
               style={{ animationDelay: `${index * 50}ms` }}
             >
-              <button className={cn(
-                "relative w-full flex items-center justify-between px-4 py-3.5 text-left rounded-xl transition-all duration-300 overflow-hidden",
-                item.active 
-                  ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg transform scale-[1.02]" 
-                  : "text-gray-700 hover:bg-gradient-to-r hover:from-gray-100 hover:to-gray-50 hover:scale-[1.01] hover:shadow-md"
-              )}>
-                {/* Animated background for active state */}
-                {item.active && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <NavLink
+                to={item.href}
+                className={({ isActive }) => cn(
+                  "relative w-full flex items-center justify-between px-4 py-3.5 text-left rounded-xl transition-all duration-300 overflow-hidden",
+                  isActive 
+                    ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg transform scale-[1.02]" 
+                    : "text-gray-700 hover:bg-gradient-to-r hover:from-gray-100 hover:to-gray-50 hover:scale-[1.01] hover:shadow-md"
                 )}
-                
-                <div className="flex items-center relative z-10">
-                  <item.icon className={cn(
-                    "h-5 w-5 mr-3 transition-all duration-300",
-                    item.active ? "text-white" : "text-gray-600 group-hover:text-blue-600"
-                  )} />
-                  <span className="font-medium">{item.label}</span>
-                </div>
-                
-                <div className="flex items-center gap-2 relative z-10">
-                  {item.count && (
-                    <span className={cn(
-                      "px-2 py-1 text-xs font-semibold rounded-full transition-colors duration-300",
-                      item.active 
-                        ? "bg-white/20 text-white" 
-                        : "bg-blue-100 text-blue-600 group-hover:bg-blue-500 group-hover:text-white"
-                    )}>
-                      {item.count}
-                    </span>
-                  )}
-                  {!item.active && (
-                    <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transform group-hover:translate-x-1 transition-all duration-300" />
-                  )}
-                </div>
-              </button>
+              >
+                {({ isActive }) => (
+                  <>
+                    {/* Animated background for active state */}
+                    {isActive && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    )}
+                    
+                    <div className="flex items-center relative z-10">
+                      <item.icon className={cn(
+                        "h-5 w-5 mr-3 transition-all duration-300",
+                        isActive ? "text-white" : "text-gray-600 group-hover:text-blue-600"
+                      )} />
+                      <span className="font-medium">{item.label}</span>
+                    </div>
+                    
+                    <div className="flex items-center gap-2 relative z-10">
+                      {item.count && (
+                        <span className={cn(
+                          "px-2 py-1 text-xs font-semibold rounded-full transition-colors duration-300",
+                          isActive 
+                            ? "bg-white/20 text-white" 
+                            : "bg-blue-100 text-blue-600 group-hover:bg-blue-500 group-hover:text-white"
+                        )}>
+                          {item.count}
+                        </span>
+                      )}
+                      {!isActive && (
+                        <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transform group-hover:translate-x-1 transition-all duration-300" />
+                      )}
+                    </div>
+                  </>
+                )}
+              </NavLink>
             </div>
           ))}
         </nav>
