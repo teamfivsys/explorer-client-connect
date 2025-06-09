@@ -12,26 +12,35 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 interface SidebarItem {
   icon: React.ElementType;
   label: string;
   href: string;
   count?: number;
+  roles?: string[];
 }
 
 const sidebarItems: SidebarItem[] = [
-  { icon: Home, label: "Dashboard", href: "/" },
   { icon: Users, label: "Customers", href: "/customers", count: 2847 },
   { icon: Calendar, label: "Bookings", href: "/bookings", count: 156 },
   { icon: MapPin, label: "Packages", href: "/packages", count: 45 },
-  { icon: BarChart3, label: "Analytics", href: "/analytics" },
-  { icon: Settings, label: "Settings", href: "/settings" },
+  { icon: BarChart3, label: "Analytics", href: "/analytics", roles: ["admin", "manager"] },
+  { icon: Settings, label: "Settings", href: "/settings", roles: ["admin"] },
 ];
 
 export function CrmSidebar() {
   const [isOpen, setIsOpen] = useState(true);
+  const location = useLocation();
+
+  // Determine the dashboard route based on current path
+  const getDashboardRoute = () => {
+    if (location.pathname.startsWith('/admin')) return '/admin';
+    if (location.pathname.startsWith('/sales')) return '/sales';
+    if (location.pathname.startsWith('/staff')) return '/staff';
+    return '/admin'; // default fallback
+  };
 
   return (
     <>
@@ -65,11 +74,53 @@ export function CrmSidebar() {
 
         {/* Navigation with enhanced styling */}
         <nav className="mt-8 px-4 space-y-2">
+          {/* Dashboard link */}
+          <div className="group relative" style={{ animationDelay: '0ms' }}>
+            <NavLink
+              to={getDashboardRoute()}
+              className={({ isActive }) =>
+                cn(
+                  "relative w-full flex items-center justify-between px-4 py-3.5 text-left rounded-xl transition-all duration-300 overflow-hidden",
+                  isActive
+                    ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg transform scale-[1.02]"
+                    : "text-gray-700 hover:bg-gradient-to-r hover:from-gray-100 hover:to-gray-50 hover:scale-[1.01] hover:shadow-md",
+                )
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  {isActive && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  )}
+
+                  <div className="flex items-center relative z-10">
+                    <Home
+                      className={cn(
+                        "h-5 w-5 mr-3 transition-all duration-300",
+                        isActive
+                          ? "text-white"
+                          : "text-gray-600 group-hover:text-blue-600",
+                      )}
+                    />
+                    <span className="font-medium">Dashboard</span>
+                  </div>
+
+                  <div className="flex items-center gap-2 relative z-10">
+                    {!isActive && (
+                      <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transform group-hover:translate-x-1 transition-all duration-300" />
+                    )}
+                  </div>
+                </>
+              )}
+            </NavLink>
+          </div>
+
+          {/* Other navigation items */}
           {sidebarItems.map((item, index) => (
             <div
               key={index}
               className="group relative"
-              style={{ animationDelay: `${index * 50}ms` }}
+              style={{ animationDelay: `${(index + 1) * 50}ms` }}
             >
               <NavLink
                 to={item.href}
@@ -84,7 +135,6 @@ export function CrmSidebar() {
               >
                 {({ isActive }) => (
                   <>
-                    {/* Animated background for active state */}
                     {isActive && (
                       <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     )}

@@ -1,11 +1,13 @@
+
 import React from "react";
+import DashboardLayout from "../components/DashboardLayout";
+import StaffDashboard from "../components/StaffDashboard";
 
 const Staff = () => {
   return (
-    <div>
-      <h1>Staff Dashboard</h1>
-      <p>Welcome, Staff!</p>
-    </div>
+    <DashboardLayout>
+      <StaffDashboard />
+    </DashboardLayout>
   );
 };
 

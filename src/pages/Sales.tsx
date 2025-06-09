@@ -1,11 +1,13 @@
+
 import React from "react";
+import DashboardLayout from "../components/DashboardLayout";
+import SalesDashboard from "../components/SalesDashboard";
 
 const Sales = () => {
   return (
-    <div>
-      <h1>Sales Dashboard</h1>
-      <p>Welcome, Sales!</p>
-    </div>
+    <DashboardLayout>
+      <SalesDashboard />
+    </DashboardLayout>
   );
 };
 
