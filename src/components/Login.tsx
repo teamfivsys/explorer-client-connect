@@ -1,18 +1,20 @@
+
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+interface LoginProps {
+  setUserRole: (role: string) => void;
+}
 
-const Login = ({ setUserRole }) => {
+const Login = ({ setUserRole }: LoginProps) => {
   console.log("Login component rendered");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
-  const users = {
+  const users: Record<string, { password: string; role: string }> = {
     admin: { password: "password", role: "admin" },
     sales: { password: "password", role: "sales" },
     manager: { password: "password", role: "manager" },
@@ -26,7 +28,6 @@ const Login = ({ setUserRole }) => {
       console.log(`Logging in as ${userRole}`);
       setUserRole(userRole);
       console.log("User role set in Login component:", userRole);
-
     } else {
       setError("Invalid credentials");
     }
