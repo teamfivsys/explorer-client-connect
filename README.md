@@ -2,6 +2,8 @@
 
 ## Project info
 
+This project is a CRM application built with React, TypeScript, and Shadcn-ui.
+
 **URL**: https://lovable.dev/projects/885bef5d-72ec-49f0-b9ca-87d51737a6ea
 
 ## How can I edit this code?
@@ -62,6 +64,8 @@ This project is built with:
 
 ## How can I deploy this project?
 
+A production build of this project can be created by running the command `npm run build`. The output will be located in the `dist` directory.
+
 Simply open [Lovable](https://lovable.dev/projects/885bef5d-72ec-49f0-b9ca-87d51737a6ea) and click on Share -> Publish.
 
 ## Can I connect a custom domain to my Lovable project?
@@ -71,3 +75,7 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+## How to contribute
+
+We welcome contributions to this project! Please read our [Contribution Guidelines](CONTRIBUTING.md) for more information on how to get involved.

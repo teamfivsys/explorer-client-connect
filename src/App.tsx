@@ -1,9 +1,14 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import Index from "./pages/Index";
 import Customers from "./pages/Customers";
 import Bookings from "./pages/Bookings";
@@ -11,27 +16,129 @@ import Packages from "./pages/Packages";
 import Analytics from "./pages/Analytics";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import Staff from "./pages/Staff";
+import Admin from "./pages/Admin";
+import Sales from "./pages/Sales";
+import Login from "./components/Login";
+import { useState, useEffect } from "react";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/customers" element={<Customers />} />
-          <Route path="/bookings" element={<Bookings />} />
-          <Route path="/packages" element={<Packages />} />
-          <Route path="/analytics" element={<Analytics />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  console.log("App component rendered");
+  const [userRole, setUserRole] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userRole) {
+      // Redirect to the appropriate page after login
+      if (userRole === "admin") {
+        navigate("/admin");
+      } else if (userRole === "sales") {
+        navigate("/sales");
+      } else if (userRole === "manager" || userRole === "staff") {
+        navigate("/staff");
+      } else {
+        navigate("/"); // Redirect to home if role is unknown
+      }
+    }
+    console.log("User role changed in App component:", userRole);
+  }, [userRole, navigate]);
+
+  const ProtectedRoute = ({ children, allowedRoles }) => {
+    if (!userRole) {
+      return <Navigate to="/" />;
+    }
+
+    if (!allowedRoles.includes(userRole)) {
+      return <Navigate to="/" />;
+    }
+
+    return children;
+  };
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+          <Routes>
+            <Route path="/" element={<Login setUserRole={setUserRole} />} />
+            <Route
+              path="/customers"
+              element={
+                <ProtectedRoute
+                  allowedRoles={["admin", "sales", "manager", "staff"]}
+                >
+                  <Customers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/bookings"
+              element={
+                <ProtectedRoute
+                  allowedRoles={["admin", "sales", "manager", "staff"]}
+                >
+                  <Bookings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/packages"
+              element={
+                <ProtectedRoute
+                  allowedRoles={["admin", "sales", "manager", "staff"]}
+                >
+                  <Packages />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/analytics"
+              element={
+                <ProtectedRoute allowedRoles={["admin", "manager"]}>
+                  <Analytics />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <Settings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/staff"
+              element={
+                <ProtectedRoute allowedRoles={["admin", "manager", "staff"]}>
+                  <Staff />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <Admin />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/sales"
+              element={
+                <ProtectedRoute allowedRoles={["admin", "sales", "manager"]}>
+                  <Sales />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

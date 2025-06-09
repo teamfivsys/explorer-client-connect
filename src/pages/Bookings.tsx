@@ -1,23 +1,51 @@
-
 import { useState } from "react";
 import { CrmSidebar } from "@/components/CrmSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Filter, Calendar, MapPin, User, BadgeIndianRupee } from "lucide-react";
+import {
+  Plus,
+  Search,
+  Filter,
+  Calendar,
+  MapPin,
+  User,
+  BadgeIndianRupee,
+} from "lucide-react";
 import { mockBookings } from "@/data/mockData";
 import { formatINR } from "@/utils/currency";
+
+import { Label } from "@/components/ui/label";
+import { Calendar as CalendarIcon } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { DayPicker } from "react-day-picker";
 
 const Bookings = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  
-  const filteredBookings = mockBookings.filter(booking => {
-    const matchesSearch = booking.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         booking.destination.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         booking.id.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === "all" || booking.status === statusFilter;
+  const [showNewBookingForm, setShowNewBookingForm] = useState(false);
+  const [newBooking, setNewBooking] = useState({
+    customerName: "",
+    destination: "",
+    startDate: null,
+    endDate: null,
+    travelers: 1,
+  });
+
+  const filteredBookings = mockBookings.filter((booking) => {
+    const matchesSearch =
+      booking.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.destination.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.id.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      statusFilter === "all" || booking.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
@@ -39,7 +67,7 @@ const Bookings = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30">
       <CrmSidebar />
-      
+
       <div className="lg:ml-64">
         <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50 px-6 py-6">
           <div className="flex items-center justify-between">
@@ -49,12 +77,190 @@ const Bookings = () => {
               </h1>
               <p className="text-gray-600 mt-1">Manage all travel bookings</p>
             </div>
-            <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700">
+            <Button
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
+              onClick={() => setShowNewBookingForm(true)}
+            >
               <Plus className="h-4 w-4 mr-2" />
               New Booking
             </Button>
           </div>
         </header>
+
+        {showNewBookingForm && (
+          <div className="p-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>New Booking</CardTitle>
+              </CardHeader>
+              <CardContent className="grid gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="customerName">Customer Name</Label>
+                    <Input
+                      type="text"
+                      id="customerName"
+                      value={newBooking.customerName}
+                      onChange={(e) =>
+                        setNewBooking({
+                          ...newBooking,
+                          customerName: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="destination">Destination</Label>
+                    <Input
+                      type="text"
+                      id="destination"
+                      value={newBooking.destination}
+                      onChange={(e) =>
+                        setNewBooking({
+                          ...newBooking,
+                          destination: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label>Start Date</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[280px] justify-start text-left font-normal",
+                            !newBooking.startDate && "text-muted-foreground",
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {newBooking.startDate ? (
+                            format(newBooking.startDate, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        className="w-auto p-0"
+                        align="center"
+                        side="bottom"
+                      >
+                        <DayPicker
+                          mode="single"
+                          selected={newBooking.startDate}
+                          onSelect={(date) =>
+                            setNewBooking({ ...newBooking, startDate: date })
+                          }
+                          disabled={{ before: new Date(), after: newBooking.endDate }}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <div>
+                    <Label>End Date</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[280px] justify-start text-left font-normal",
+                            !newBooking.endDate && "text-muted-foreground",
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {newBooking.endDate ? (
+                            format(newBooking.endDate, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        className="w-auto p-0"
+                        align="center"
+                        side="bottom"
+                      >
+                        <DayPicker
+                          mode="single"
+                          selected={newBooking.endDate}
+                          onSelect={(date) =>
+                            setNewBooking({ ...newBooking, endDate: date })
+                          }
+                          disabled={{ before: new Date() }}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <div>
+                    <Label>End Date</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[280px] justify-start text-left font-normal",
+                            !newBooking.endDate && "text-muted-foreground",
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {newBooking.endDate ? (
+                            format(newBooking.endDate, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        className="w-auto p-0"
+                        align="center"
+                        side="bottom"
+                      >
+                        <DayPicker
+                          mode="single"
+                          selected={newBooking.endDate}
+                          onSelect={(date) =>
+                            setNewBooking({ ...newBooking, endDate: date })
+                          }
+                          disabled={{ before: newBooking.startDate || new Date() }}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="travelers">Travelers</Label>
+                  <Input
+                    type="number"
+                    id="travelers"
+                    value={newBooking.travelers}
+                    onChange={(e) =>
+                      setNewBooking({
+                        ...newBooking,
+                        travelers: parseInt(e.target.value),
+                      })
+                    }
+                  />
+                </div>
+                <Button
+                  onClick={() => {
+                    // Implement save booking logic here
+                    console.log("Saving booking:", newBooking);
+                    setShowNewBookingForm(false);
+                  }}
+                >
+                  Save Booking
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         <main className="p-6">
           {/* Filters */}
@@ -68,8 +274,8 @@ const Bookings = () => {
                 className="pl-10 bg-white/80 backdrop-blur-sm border-gray-200/50"
               />
             </div>
-            <select 
-              value={statusFilter} 
+            <select
+              value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-4 py-2 rounded-md border border-gray-200/50 bg-white/80 backdrop-blur-sm"
             >
@@ -84,20 +290,27 @@ const Bookings = () => {
           {/* Bookings List */}
           <div className="space-y-4">
             {filteredBookings.map((booking) => (
-              <Card key={booking.id} className="group hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-br from-white/90 to-white/60 backdrop-blur-xl">
+              <Card
+                key={booking.id}
+                className="group hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-br from-white/90 to-white/60 backdrop-blur-xl"
+              >
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4 flex-1">
                       <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
                         {booking.avatar}
                       </div>
-                      
+
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-2">
-                          <h3 className="font-semibold text-lg text-gray-900">{booking.customerName}</h3>
-                          <span className="text-sm text-gray-500">#{booking.id}</span>
+                          <h3 className="font-semibold text-lg text-gray-900">
+                            {booking.customerName}
+                          </h3>
+                          <span className="text-sm text-gray-500">
+                            #{booking.id}
+                          </span>
                         </div>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
                           <div className="flex items-center gap-2">
                             <MapPin className="h-4 w-4 text-blue-500" />
@@ -105,29 +318,39 @@ const Bookings = () => {
                           </div>
                           <div className="flex items-center gap-2">
                             <Calendar className="h-4 w-4 text-purple-500" />
-                            <span>{booking.startDate} - {booking.endDate}</span>
+                            <span>
+                              {booking.startDate} - {booking.endDate}
+                            </span>
                           </div>
                           <div className="flex items-center gap-2">
                             <User className="h-4 w-4 text-green-500" />
-                            <span>{booking.travelers} traveler{booking.travelers > 1 ? 's' : ''}</span>
+                            <span>
+                              {booking.travelers} traveler
+                              {booking.travelers > 1 ? "s" : ""}
+                            </span>
                           </div>
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-6">
-                      <Badge className={`border font-medium ${getStatusStyle(booking.status)}`}>
+                      <Badge
+                        className={`border font-medium ${getStatusStyle(booking.status)}`}
+                      >
                         {booking.status}
                       </Badge>
-                      
+
                       <div className="text-right">
-                        <div className="font-bold text-xl text-gray-900">{formatINR(booking.amount)}</div>
+                        <div className="font-bold text-xl text-gray-900">
+                          {formatINR(booking.amount)}
+                        </div>
                         <div className="text-sm text-gray-600">
                           Paid: {formatINR(booking.paidAmount)}
                         </div>
                         {booking.amount > booking.paidAmount && (
                           <div className="text-sm text-red-600 font-medium">
-                            Due: {formatINR(booking.amount - booking.paidAmount)}
+                            Due:{" "}
+                            {formatINR(booking.amount - booking.paidAmount)}
                           </div>
                         )}
                       </div>

@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, User, TrendingUp } from "lucide-react";
@@ -35,14 +34,14 @@ export function RecentBookings() {
       <CardContent>
         <div className="space-y-4">
           {mockBookings.slice(0, 4).map((booking, index) => (
-            <div 
-              key={booking.id} 
+            <div
+              key={booking.id}
               className="group relative p-4 rounded-xl bg-gradient-to-r from-white/80 to-white/40 backdrop-blur-sm border border-gray-200/50 hover:shadow-lg hover:scale-[1.01] transition-all duration-300"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Hover gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
+
               <div className="relative flex items-center justify-between">
                 <div className="flex items-center gap-4 flex-1">
                   {/* Customer avatar */}
@@ -52,13 +51,17 @@ export function RecentBookings() {
                     </div>
                     <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-white shadow-sm" />
                   </div>
-                  
+
                   {/* Booking details */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
                       <User className="h-4 w-4 text-gray-500" />
-                      <span className="font-semibold text-gray-900 truncate">{booking.customerName}</span>
-                      <span className="text-xs text-gray-400">#{booking.id}</span>
+                      <span className="font-semibold text-gray-900 truncate">
+                        {booking.customerName}
+                      </span>
+                      <span className="text-xs text-gray-400">
+                        #{booking.id}
+                      </span>
                     </div>
                     <div className="flex items-center gap-4 text-sm text-gray-600">
                       <div className="flex items-center gap-1">
@@ -72,14 +75,18 @@ export function RecentBookings() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Status and amount */}
                 <div className="flex items-center gap-4">
-                  <Badge className={`border ${getStatusStyle(booking.status)} font-medium`}>
+                  <Badge
+                    className={`border ${getStatusStyle(booking.status)} font-medium`}
+                  >
                     {booking.status}
                   </Badge>
                   <div className="text-right">
-                    <div className="font-bold text-lg text-gray-900">{formatINR(booking.amount)}</div>
+                    <div className="font-bold text-lg text-gray-900">
+                      {formatINR(booking.amount)}
+                    </div>
                     <div className="flex items-center gap-1 text-xs text-emerald-600">
                       <TrendingUp className="h-3 w-3" />
                       <span>+12%</span>

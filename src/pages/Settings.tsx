@@ -1,4 +1,3 @@
-
 import { CrmSidebar } from "@/components/CrmSidebar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,14 +11,16 @@ const Settings = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30">
       <CrmSidebar />
-      
+
       <div className="lg:ml-64">
         <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50 px-6 py-6">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
               Settings
             </h1>
-            <p className="text-gray-600 mt-1">Manage your account and application preferences</p>
+            <p className="text-gray-600 mt-1">
+              Manage your account and application preferences
+            </p>
           </div>
         </header>
 
@@ -34,7 +35,10 @@ const Settings = () => {
                 <User className="h-4 w-4" />
                 Profile
               </TabsTrigger>
-              <TabsTrigger value="notifications" className="flex items-center gap-2">
+              <TabsTrigger
+                value="notifications"
+                className="flex items-center gap-2"
+              >
                 <Bell className="h-4 w-4" />
                 Notifications
               </TabsTrigger>
@@ -61,20 +65,33 @@ const Settings = () => {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="company-email">Company Email</Label>
-                      <Input id="company-email" type="email" defaultValue="info@dilaara.com" />
+                      <Input
+                        id="company-email"
+                        type="email"
+                        defaultValue="info@dilaara.com"
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="company-phone">Phone Number</Label>
-                      <Input id="company-phone" defaultValue="+91 98765 43210" />
+                      <Input
+                        id="company-phone"
+                        defaultValue="+91 98765 43210"
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="company-website">Website</Label>
-                      <Input id="company-website" defaultValue="www.dilaara.com" />
+                      <Input
+                        id="company-website"
+                        defaultValue="www.dilaara.com"
+                      />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="company-address">Address</Label>
-                    <Input id="company-address" defaultValue="123 Business District, Mumbai, Maharashtra 400001" />
+                    <Input
+                      id="company-address"
+                      defaultValue="123 Business District, Mumbai, Maharashtra 400001"
+                    />
                   </div>
                   <Button>Save Changes</Button>
                 </CardContent>
@@ -93,7 +110,9 @@ const Settings = () => {
                     </div>
                     <div>
                       <Button variant="outline">Change Avatar</Button>
-                      <p className="text-sm text-gray-600 mt-1">JPG, GIF or PNG. 1MB max.</p>
+                      <p className="text-sm text-gray-600 mt-1">
+                        JPG, GIF or PNG. 1MB max.
+                      </p>
                     </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -107,7 +126,11 @@ const Settings = () => {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" defaultValue="admin@dilaara.com" />
+                      <Input
+                        id="email"
+                        type="email"
+                        defaultValue="admin@dilaara.com"
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="phone">Phone</Label>
@@ -129,28 +152,36 @@ const Settings = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <h4 className="font-medium">Email Notifications</h4>
-                        <p className="text-sm text-gray-600">Receive email updates about bookings and customers</p>
+                        <p className="text-sm text-gray-600">
+                          Receive email updates about bookings and customers
+                        </p>
                       </div>
                       <Switch defaultChecked />
                     </div>
                     <div className="flex items-center justify-between">
                       <div>
                         <h4 className="font-medium">SMS Notifications</h4>
-                        <p className="text-sm text-gray-600">Get SMS alerts for urgent updates</p>
+                        <p className="text-sm text-gray-600">
+                          Get SMS alerts for urgent updates
+                        </p>
                       </div>
                       <Switch defaultChecked />
                     </div>
                     <div className="flex items-center justify-between">
                       <div>
                         <h4 className="font-medium">Browser Notifications</h4>
-                        <p className="text-sm text-gray-600">Show desktop notifications</p>
+                        <p className="text-sm text-gray-600">
+                          Show desktop notifications
+                        </p>
                       </div>
                       <Switch />
                     </div>
                     <div className="flex items-center justify-between">
                       <div>
                         <h4 className="font-medium">Marketing Updates</h4>
-                        <p className="text-sm text-gray-600">Receive updates about new features and promotions</p>
+                        <p className="text-sm text-gray-600">
+                          Receive updates about new features and promotions
+                        </p>
                       </div>
                       <Switch />
                     </div>
@@ -175,7 +206,9 @@ const Settings = () => {
                       <Input id="new-password" type="password" />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="confirm-password">Confirm New Password</Label>
+                      <Label htmlFor="confirm-password">
+                        Confirm New Password
+                      </Label>
                       <Input id="confirm-password" type="password" />
                     </div>
                     <Button>Update Password</Button>
@@ -190,7 +223,9 @@ const Settings = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <h4 className="font-medium">Enable 2FA</h4>
-                        <p className="text-sm text-gray-600">Add an extra layer of security to your account</p>
+                        <p className="text-sm text-gray-600">
+                          Add an extra layer of security to your account
+                        </p>
                       </div>
                       <Button variant="outline">Setup 2FA</Button>
                     </div>
@@ -209,7 +244,9 @@ const Settings = () => {
                     <div className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
                       <div className="flex justify-between items-center">
                         <div>
-                          <h3 className="text-xl font-bold">Professional Plan</h3>
+                          <h3 className="text-xl font-bold">
+                            Professional Plan
+                          </h3>
                           <p className="text-gray-600">₹2,999/month</p>
                         </div>
                         <Button variant="outline">Upgrade Plan</Button>

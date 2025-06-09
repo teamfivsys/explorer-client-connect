@@ -1,47 +1,61 @@
-
 import { CrmSidebar } from "@/components/CrmSidebar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
 import { TrendingUp, Users, BadgeIndianRupee, Calendar } from "lucide-react";
 
 const revenueData = [
-  { month: 'Jan', revenue: 850000 },
-  { month: 'Feb', revenue: 920000 },
-  { month: 'Mar', revenue: 780000 },
-  { month: 'Apr', revenue: 1200000 },
-  { month: 'May', revenue: 1450000 },
-  { month: 'Jun', revenue: 1680000 },
+  { month: "Jan", revenue: 850000 },
+  { month: "Feb", revenue: 920000 },
+  { month: "Mar", revenue: 780000 },
+  { month: "Apr", revenue: 1200000 },
+  { month: "May", revenue: 1450000 },
+  { month: "Jun", revenue: 1680000 },
 ];
 
 const bookingData = [
-  { month: 'Jan', bookings: 45 },
-  { month: 'Feb', bookings: 52 },
-  { month: 'Mar', bookings: 38 },
-  { month: 'Apr', bookings: 68 },
-  { month: 'May', bookings: 82 },
-  { month: 'Jun', bookings: 95 },
+  { month: "Jan", bookings: 45 },
+  { month: "Feb", bookings: 52 },
+  { month: "Mar", bookings: 38 },
+  { month: "Apr", bookings: 68 },
+  { month: "May", bookings: 82 },
+  { month: "Jun", bookings: 95 },
 ];
 
 const destinationData = [
-  { name: 'Goa', bookings: 35, color: '#3B82F6' },
-  { name: 'Kerala', bookings: 28, color: '#8B5CF6' },
-  { name: 'Dubai', bookings: 22, color: '#10B981' },
-  { name: 'Maldives', bookings: 18, color: '#F59E0B' },
-  { name: 'Others', bookings: 12, color: '#EF4444' },
+  { name: "Goa", bookings: 35, color: "#3B82F6" },
+  { name: "Kerala", bookings: 28, color: "#8B5CF6" },
+  { name: "Dubai", bookings: 22, color: "#10B981" },
+  { name: "Maldives", bookings: 18, color: "#F59E0B" },
+  { name: "Others", bookings: 12, color: "#EF4444" },
 ];
 
 const Analytics = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30">
       <CrmSidebar />
-      
+
       <div className="lg:ml-64">
         <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50 px-6 py-6">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
               Analytics & Reports
             </h1>
-            <p className="text-gray-600 mt-1">Track your business performance and insights</p>
+            <p className="text-gray-600 mt-1">
+              Track your business performance and insights
+            </p>
           </div>
         </header>
 
@@ -57,7 +71,9 @@ const Analytics = () => {
                   <div>
                     <p className="text-sm text-gray-600">Total Revenue</p>
                     <p className="text-2xl font-bold">₹68.8L</p>
-                    <p className="text-xs text-green-600">+23.5% from last month</p>
+                    <p className="text-xs text-green-600">
+                      +23.5% from last month
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -72,7 +88,9 @@ const Analytics = () => {
                   <div>
                     <p className="text-sm text-gray-600">Total Bookings</p>
                     <p className="text-2xl font-bold">380</p>
-                    <p className="text-xs text-green-600">+18.2% from last month</p>
+                    <p className="text-xs text-green-600">
+                      +18.2% from last month
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -87,7 +105,9 @@ const Analytics = () => {
                   <div>
                     <p className="text-sm text-gray-600">New Customers</p>
                     <p className="text-2xl font-bold">127</p>
-                    <p className="text-xs text-green-600">+12.8% from last month</p>
+                    <p className="text-xs text-green-600">
+                      +12.8% from last month
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -102,7 +122,9 @@ const Analytics = () => {
                   <div>
                     <p className="text-sm text-gray-600">Conversion Rate</p>
                     <p className="text-2xl font-bold">68.5%</p>
-                    <p className="text-xs text-green-600">+5.2% from last month</p>
+                    <p className="text-xs text-green-600">
+                      +5.2% from last month
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -121,8 +143,18 @@ const Analytics = () => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" />
                     <YAxis />
-                    <Tooltip formatter={(value) => [`₹${(value as number / 100000).toFixed(1)}L`, 'Revenue']} />
-                    <Line type="monotone" dataKey="revenue" stroke="#3B82F6" strokeWidth={3} />
+                    <Tooltip
+                      formatter={(value) => [
+                        `₹${((value as number) / 100000).toFixed(1)}L`,
+                        "Revenue",
+                      ]}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="revenue"
+                      stroke="#3B82F6"
+                      strokeWidth={3}
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </CardContent>

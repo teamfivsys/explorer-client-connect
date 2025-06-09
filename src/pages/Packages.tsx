@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { CrmSidebar } from "@/components/CrmSidebar";
 import { Button } from "@/components/ui/button";
@@ -11,10 +10,11 @@ import { formatINR } from "@/utils/currency";
 
 const Packages = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  
-  const filteredPackages = mockPackages.filter(pkg =>
-    pkg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    pkg.destination.toLowerCase().includes(searchTerm.toLowerCase())
+
+  const filteredPackages = mockPackages.filter(
+    (pkg) =>
+      pkg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      pkg.destination.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const getCategoryColor = (category: string) => {
@@ -35,7 +35,7 @@ const Packages = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30">
       <CrmSidebar />
-      
+
       <div className="lg:ml-64">
         <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50 px-6 py-6">
           <div className="flex items-center justify-between">
@@ -43,7 +43,9 @@ const Packages = () => {
               <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
                 Travel Packages
               </h1>
-              <p className="text-gray-600 mt-1">Manage your travel packages and destinations</p>
+              <p className="text-gray-600 mt-1">
+                Manage your travel packages and destinations
+              </p>
             </div>
             <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700">
               <Plus className="h-4 w-4 mr-2" />
@@ -69,7 +71,10 @@ const Packages = () => {
           {/* Packages Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredPackages.map((pkg) => (
-              <Card key={pkg.id} className="group hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-br from-white/90 to-white/60 backdrop-blur-xl overflow-hidden">
+              <Card
+                key={pkg.id}
+                className="group hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-br from-white/90 to-white/60 backdrop-blur-xl overflow-hidden"
+              >
                 <div className="h-48 bg-gradient-to-r from-blue-500 to-purple-600 relative">
                   <div className="absolute inset-0 bg-black/20" />
                   <div className="absolute bottom-4 left-4 text-white">
@@ -80,12 +85,14 @@ const Packages = () => {
                     </div>
                   </div>
                   <div className="absolute top-4 right-4">
-                    <Badge className={`border font-medium ${getCategoryColor(pkg.category)}`}>
+                    <Badge
+                      className={`border font-medium ${getCategoryColor(pkg.category)}`}
+                    >
                       {pkg.category}
                     </Badge>
                   </div>
                 </div>
-                
+
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2 text-gray-600">
@@ -94,17 +101,25 @@ const Packages = () => {
                     </div>
                     <div className="flex items-center gap-1 text-2xl font-bold text-gray-900">
                       <BadgeIndianRupee className="h-6 w-6" />
-                      <span>{formatINR(pkg.price).replace('₹', '')}</span>
+                      <span>{formatINR(pkg.price).replace("₹", "")}</span>
                     </div>
                   </div>
-                  
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">{pkg.description}</p>
-                  
+
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                    {pkg.description}
+                  </p>
+
                   <div className="space-y-2">
-                    <h4 className="font-semibold text-sm text-gray-900">Inclusions:</h4>
+                    <h4 className="font-semibold text-sm text-gray-900">
+                      Inclusions:
+                    </h4>
                     <div className="flex flex-wrap gap-1">
                       {pkg.inclusions.slice(0, 3).map((inclusion, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
+                        <Badge
+                          key={index}
+                          variant="secondary"
+                          className="text-xs"
+                        >
                           {inclusion}
                         </Badge>
                       ))}
@@ -115,7 +130,7 @@ const Packages = () => {
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="flex gap-2 mt-4">
                     <Button className="flex-1" size="sm">
                       Edit Package

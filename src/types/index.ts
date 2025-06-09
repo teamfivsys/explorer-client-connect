@@ -1,4 +1,3 @@
-
 export interface Customer {
   id: string;
   name: string;
@@ -10,7 +9,7 @@ export interface Customer {
   preferences: string[];
   totalBookings: number;
   totalSpent: number;
-  status: 'active' | 'inactive';
+  status: "active" | "inactive";
   createdAt: string;
   avatar?: string;
 }
@@ -23,7 +22,7 @@ export interface Booking {
   packageId: string;
   startDate: string;
   endDate: string;
-  status: 'lead' | 'quoted' | 'confirmed' | 'completed' | 'cancelled';
+  status: "lead" | "quoted" | "confirmed" | "completed" | "cancelled";
   amount: number;
   paidAmount: number;
   travelers: number;
@@ -41,7 +40,7 @@ export interface Package {
   description: string;
   inclusions: string[];
   exclusions: string[];
-  category: 'domestic' | 'international' | 'adventure' | 'luxury' | 'budget';
+  category: "domestic" | "international" | "adventure" | "luxury" | "budget";
   isActive: boolean;
   images: string[];
 }
@@ -51,7 +50,7 @@ export interface Itinerary {
   bookingId: string;
   title: string;
   days: ItineraryDay[];
-  status: 'draft' | 'sent' | 'approved';
+  status: "draft" | "sent" | "approved";
 }
 
 export interface ItineraryDay {
