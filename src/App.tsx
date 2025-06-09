@@ -9,7 +9,6 @@ import {
   Navigate,
   useNavigate,
 } from "react-router-dom";
-import Index from "./pages/Index";
 import Customers from "./pages/Customers";
 import Bookings from "./pages/Bookings";
 import Packages from "./pages/Packages";
