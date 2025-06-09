@@ -9,10 +9,12 @@ import {
   Menu,
   X,
   ChevronRight,
+  LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { NavLink, useLocation } from "react-router-dom";
+import { useUser } from "../App";
 
 interface SidebarItem {
   icon: React.ElementType;
@@ -33,6 +35,7 @@ const sidebarItems: SidebarItem[] = [
 export function CrmSidebar() {
   const [isOpen, setIsOpen] = useState(true);
   const location = useLocation();
+  const { userRole, username, logout } = useUser();
 
   // Determine the dashboard route based on current path
   const getDashboardRoute = () => {
@@ -40,6 +43,20 @@ export function CrmSidebar() {
     if (location.pathname.startsWith('/sales')) return '/sales';
     if (location.pathname.startsWith('/staff')) return '/staff';
     return '/admin'; // default fallback
+  };
+
+  // Filter sidebar items based on user role
+  const filteredSidebarItems = sidebarItems.filter(item => {
+    if (!item.roles) return true; // Show if no role restriction
+    return item.roles.includes(userRole || '');
+  });
+
+  const handleLogout = () => {
+    logout();
+  };
+
+  const getRoleDisplayName = (role: string) => {
+    return role.charAt(0).toUpperCase() + role.slice(1);
   };
 
   return (
@@ -116,7 +133,7 @@ export function CrmSidebar() {
           </div>
 
           {/* Other navigation items */}
-          {sidebarItems.map((item, index) => (
+          {filteredSidebarItems.map((item, index) => (
             <div
               key={index}
               className="group relative"
@@ -175,21 +192,35 @@ export function CrmSidebar() {
           ))}
         </nav>
 
-        {/* Bottom section */}
-        <div className="absolute bottom-6 left-4 right-4">
+        {/* Bottom section with user info and logout */}
+        <div className="absolute bottom-6 left-4 right-4 space-y-3">
+          {/* User Profile */}
           <div className="p-4 rounded-xl bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200/50">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
-                AD
+                {username?.charAt(0).toUpperCase() || 'U'}
               </div>
-              <div>
-                <div className="font-semibold text-gray-900 text-sm">
-                  Admin User
+              <div className="flex-1 min-w-0">
+                <div className="font-semibold text-gray-900 text-sm truncate">
+                  {username || 'User'}
                 </div>
-                <div className="text-xs text-gray-600">admin@dilaara.com</div>
+                <div className="text-xs text-gray-600">
+                  {getRoleDisplayName(userRole || 'user')}
+                </div>
               </div>
             </div>
           </div>
+
+          {/* Logout Button */}
+          <Button
+            onClick={handleLogout}
+            variant="outline"
+            size="sm"
+            className="w-full flex items-center gap-2 text-gray-700 hover:text-red-600 hover:border-red-300"
+          >
+            <LogOut className="h-4 w-4" />
+            Logout
+          </Button>
         </div>
       </div>
 
